@@ -1,15 +1,25 @@
-import React, {useRef } from 'react';
+import React, {useEffect, useRef} from 'react';
 import CanvasDraw from "react-canvas-draw";
+import {useStateValue} from "../context/StateProvider";
+
 const Canvas = () => {
+    const [{socket}] = useStateValue()
     const canvasRef = useRef<CanvasDraw | null>(null)
-    const handleDraw = () =>{
-        if(!canvasRef.current) return;
-        console.log('Board changed')
-        console.log(canvasRef.current.getSaveData())
+    useEffect(() => {
+            socket.on('broadcast', (data: any) => {
+                console.log("DRAWING BOARD CHANGED", data)
+                canvasRef.current?.loadSaveData(data, true)
+            })
+        }, [])
+    const handleDraw = () => {
+        console.log('HEY')
+        if (!canvasRef.current) return;
+        socket.emit('on-draw', canvasRef.current.getSaveData())
     }
-    return(
+
+    return (
         <>
-        <CanvasDraw ref={canvasRef} onChange={handleDraw}/>
+            <CanvasDraw ref={canvasRef} onChange={handleDraw}/>
         </>
     )
 }

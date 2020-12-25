@@ -16,10 +16,10 @@ const App = () => {
     return (
         <Container>
             <Header>
-             <i><h2>Skribbl...</h2></i>
+                <h2>Skribbl...</h2>
             </Header>
             <CanvasContainer>
-                {userList&& userList.map((item,index)=>(
+                {userList&& userList.map((item:string,index:number)=>(
                     <UserList>
                     {item}-{index}
                     </UserList>

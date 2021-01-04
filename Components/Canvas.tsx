@@ -4,7 +4,6 @@ import {useStateValue} from "../context/StateProvider";
 interface CanvasProps {
     userList: string[]
 }
-
 const Canvas = ({userList}:CanvasProps) => {
     const [{socket}] = useStateValue()
     const canvasRef = useRef<CanvasDraw | null>(null)
@@ -35,9 +34,9 @@ const Canvas = ({userList}:CanvasProps) => {
                 if(current === 0 ) {
                     console.log(userList)
                     const moveUser = userList.splice(0,1)
-                    userList.push(moveUser)
-                    return current = 20
-                };
+                    userList.push(moveUser[0])
+                    return current + 20
+                }
                 return current - 1
             })
         },1000)
@@ -46,6 +45,7 @@ const Canvas = ({userList}:CanvasProps) => {
     return (
         <>
             <h2>{timer}</h2>
+            {/*TODO: make my own Canvas*/}
             <CanvasDraw disabled={disabled} brushColor={'#ff5733'} ref={canvasRef} onChange={handleDraw}/>
         </>
     )

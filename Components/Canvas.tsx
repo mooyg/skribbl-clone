@@ -17,6 +17,7 @@ const Canvas = ({userList}:CanvasProps) => {
         })
     }, [])
     useEffect(()=>{
+        console.log("TURN OVER")
         if(socket.id !== userList[0]){
             setDisabled(true)
         }else {
@@ -34,12 +35,13 @@ const Canvas = ({userList}:CanvasProps) => {
                 if(current === 0 ) {
                     console.log(userList)
                     const moveUser = userList.splice(0,1)
-                    console.log(moveUser)
+                    userList.push(moveUser)
+                    return current = 20
                 };
                 return current - 1
             })
-            return () => clearInterval(countdown)
         },1000)
+        return () => clearInterval(countdown)
     },[userList])
     return (
         <>

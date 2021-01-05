@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import {AppProps} from 'next/app'
-import {StateProvider} from "../context/StateProvider";
-import reducer, {initialState} from "../context/reducer";
+import {StateProvider} from "../Context/StateProvider";
+import reducer, {initialState} from "../Context/reducer";
 import React from "react";
 
 function MyApp({Component, pageProps}: AppProps ){

@@ -1,11 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import CanvasDraw from "react-canvas-draw";
-import {useStateValue} from "../context/StateProvider";
-interface CanvasProps {
-    userList: string[]
-}
-const Canvas = ({userList}:CanvasProps) => {
-    const [{socket}] = useStateValue()
+import {useStateValue} from "../Context/StateProvider";
+
+const Canvas = () => {
+    const [{socket, userList}] = useStateValue()
     const canvasRef = useRef<CanvasDraw | null>(null)
     const [disabled, setDisabled] = useState<boolean>(false)
     const [timer, setTimer] = useState<number>(20)
@@ -29,12 +27,11 @@ const Canvas = ({userList}:CanvasProps) => {
         socket.emit('on-draw', canvasRef.current.getSaveData())
     }
     useEffect(()=>{
+        if(userList.length <=1 ) return;
         const countdown = setInterval(()=>{
             setTimer(current => {
                 if(current === 0 ) {
                     console.log(userList)
-                    const moveUser = userList.splice(0,1)
-                    userList.push(moveUser[0])
                     return current + 20
                 }
                 return current - 1

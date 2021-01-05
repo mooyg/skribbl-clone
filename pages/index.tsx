@@ -24,7 +24,7 @@ const App = () => {
       </Header>
       <UserList>
         {userList &&
-          userList.map((item, index) => (
+          userList.map((item:string, index:number) => (
             <>
               <h2>
                 {item}-{index}

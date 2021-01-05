@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "..\\..\\skribbl-clone-backend"
+		}
+	],
+	"settings": {
+		"VSCord.enabled": true
+	}
+}

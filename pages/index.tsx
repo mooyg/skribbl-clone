@@ -4,9 +4,9 @@ import Container from "../styles/Container";
 import Canvas from "../Components/Canvas";
 import CanvasContainer from "../styles/CanvasContainer";
 import { useStateValue } from "../Context/StateProvider";
-import UserList from "../styles/UserList";
+import UserList from '../Components/UserList';
 const App = () => {
-  const [{ socket, userList}, dispatch] = useStateValue();
+  const [{ socket}, dispatch] = useStateValue();
   useEffect(() => {
     socket.on("new-connection", (data: string[]) => {
       dispatch({
@@ -23,16 +23,7 @@ const App = () => {
           <h2>Skribbl...</h2>
         </i>
       </Header>
-      <UserList>
-        {userList &&
-          userList.map((item:string, index:number) => (
-            <>
-              <h2>
-                {item}-{index}
-              </h2>
-            </>
-          ))}
-      </UserList>
+      <UserList/>
       <CanvasContainer>
         <Canvas/>
       </CanvasContainer>

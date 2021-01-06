@@ -5,7 +5,7 @@ const UserList = () => {
     const [{userList}] = useStateValue()
     return (
         <List>
-            {userList?.map(item=>(
+            {userList?.map((item:string)=>(
                 <>
                 {item}
                 </>

@@ -25,23 +25,22 @@ const Canvas = () => {
     if (!canvasRef.current) return;
     socket.emit("on-draw", canvasRef.current.getSaveData());
   };
+  useEffect(()=>{
+    if(timer === 0){
+      const copyArray = [...userList];
+      const moveUser = copyArray.splice(0, 1);
+      console.log(moveUser);
+      dispatch({
+        type: "SET_USERLIST",
+        item: copyArray.concat(moveUser),
+      });
+    }
+  },[timer])
   useEffect(() => {
     if (userList.length <= 1) return;
     const countdown = setInterval(() => {
-      setTimer((current) => {
-        if (current === 0) {
-          console.log([...userList]);
-          const copyArray = [...userList];
-          const moveUser = copyArray.splice(0, 1);
-          console.log(moveUser);
-          dispatch({
-            type: "SET_USERLIST",
-            item: copyArray.concat(moveUser),
-          });
-          return current + 20;
-        }
-        return current - 1;
-      });
+     
+      setTimer((current) => (current === 0 ? 20 : current - 1));
     }, 1000);
     return () => clearInterval(countdown);
   }, [userList]);

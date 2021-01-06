@@ -14,6 +14,7 @@ const App = () => {
         item: data,
       });
     });
+   
   }, []);
   return (
     <Container>

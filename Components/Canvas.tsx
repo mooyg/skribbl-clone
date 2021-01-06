@@ -25,8 +25,8 @@ const Canvas = () => {
     if (!canvasRef.current) return;
     socket.emit("on-draw", canvasRef.current.getSaveData());
   };
-  useEffect(()=>{
-    if(timer === 0){
+  useEffect(() => {
+    if (timer === 0) {
       const copyArray = [...userList];
       const moveUser = copyArray.splice(0, 1);
       console.log(moveUser);
@@ -34,13 +34,15 @@ const Canvas = () => {
         type: "SET_USERLIST",
         item: copyArray.concat(moveUser),
       });
+      socket.emit('refresh-userList', copyArray.concat(moveUser))
+      setTimer(20)
+      canvasRef.current?.clear()
     }
-  },[timer])
+  }, [timer]);
   useEffect(() => {
     if (userList.length <= 1) return;
     const countdown = setInterval(() => {
-     
-      setTimer((current) => (current === 0 ? 20 : current - 1));
+      setTimer((current) => current - 1);
     }, 1000);
     return () => clearInterval(countdown);
   }, [userList]);

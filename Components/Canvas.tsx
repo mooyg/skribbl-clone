@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { useStateValue } from "../Context/StateProvider";
 import useSwitch from "../Hooks/useSwitch";

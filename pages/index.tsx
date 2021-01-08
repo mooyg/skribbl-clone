@@ -19,8 +19,8 @@ const App = () => {
         type: "SET_USERLIST",
         item: guestList,
       });
+    
     });
-   
   }, []);
   return (
     <Container>

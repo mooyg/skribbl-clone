@@ -9,9 +9,15 @@ const App = () => {
   const [{ socket}, dispatch] = useStateValue();
   useEffect(() => {
     socket.on("new-connection", (data: string[]) => {
+      const guestList = data.map((item,index) => {
+        return {
+          name: `Guest ${index}`,
+          socketID: item
+        }
+      })
       dispatch({
         type: "SET_USERLIST",
-        item: data,
+        item: guestList,
       });
     });
    

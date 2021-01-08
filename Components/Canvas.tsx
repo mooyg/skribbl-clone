@@ -1,44 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { useStateValue } from "../Context/StateProvider";
-
+import useSwitch from "../Hooks/useSwitch";
 const Canvas = () => {
   const [{ socket, userList }, dispatch] = useStateValue();
   const canvasRef = useRef<CanvasDraw | null>(null);
-  const [disabled, setDisabled] = useState<boolean>(false);
   const [timer, setTimer] = useState<number>(20);
+  const [disabled, setDisabled] = useState<boolean>(false)
+  useSwitch(timer, canvasRef, setTimer);
   useEffect(() => {
     socket.on("broadcast", (data: any) => {
       console.log("DRAWING BOARD CHANGED", data);
       canvasRef.current?.loadSaveData(data, true);
     });
   }, []);
-  useEffect(() => {
-    console.log("TURN OVER");
-    if (socket.id !== userList[0]) {
-      setDisabled(true);
-    } else {
-      setDisabled(false);
-    }
-  }, [userList]);
   const handleDraw = () => {
     if (!canvasRef.current) return;
     socket.emit("on-draw", canvasRef.current.getSaveData());
   };
-  useEffect(() => {
-    if (timer === 0) {
-      const copyArray = [...userList];
-      const moveUser = copyArray.splice(0, 1);
-      console.log(moveUser);
-      dispatch({
-        type: "SET_USERLIST",
-        item: copyArray.concat(moveUser),
-      });
-      socket.emit('refresh-userList', copyArray.concat(moveUser))
-      setTimer(20)
-      canvasRef.current?.clear()
-    }
-  }, [timer]);
   useEffect(() => {
     if (userList.length <= 1) return;
     const countdown = setInterval(() => {
@@ -46,6 +25,14 @@ const Canvas = () => {
     }, 1000);
     return () => clearInterval(countdown);
   }, [userList]);
+  useEffect(() =>{
+    console.log("TURN OVER")
+    if (socket.id !== userList[0]?.socketID) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [userList])
   return (
     <>
       <h2>{timer}</h2>

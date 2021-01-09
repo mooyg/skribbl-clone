@@ -1,18 +1,22 @@
 import React from 'react'
 import { useStateValue } from '../Context/StateProvider'
 import List from '../styles/List'
-interface userList {
-    name: string,
-    socketID: string
 
-}
 const UserList = () => {
-    const [{userList}] = useStateValue()
+    const [{userList, socket}] = useStateValue()
     return (
         <List>
-            {userList?.map((item:userList)=>(
+            {userList?.map((item:string)=>(
                 <>
-               <li>{item.name}-{item.socketID}</li>
+               <li>{item}-{item === userList[0] && (
+                   <>
+                       Drawing
+                   </>
+               )} {item === socket.id &&(
+                   <>
+                       YOU
+                   </>
+               )}</li>
                 </>
             ))}
         </List>

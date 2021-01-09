@@ -7,6 +7,7 @@ interface Action {
 export const initialState = {
     socket: IS_BROWSER ? io('http://localhost:8000/') : null,
     userList: [],
+    isOver: null
 }
 const reducer = (state=initialState, action:Action)=>{
     console.log(action)

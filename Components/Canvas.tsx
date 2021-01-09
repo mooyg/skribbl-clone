@@ -1,21 +1,32 @@
 import React, { useEffect, useRef, useState } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { useStateValue } from "../Context/StateProvider";
-import useSwitch from "../Hooks/useSwitch";
-import useInterval from '../Hooks/useInterval'
+
 const Canvas = () => {
-  const [{ socket, userList }] = useStateValue();
+  const [{ socket, userList } ,dispatch] = useStateValue();
   
   const canvasRef = useRef<CanvasDraw | null>(null);
-  
-  const [timer, setTimer] = useState<number>(20);
-  
+
   const [disabled, setDisabled] = useState<boolean>(false)
   
-  useSwitch(timer, canvasRef, setTimer);
-  
-  useInterval(setTimer)
-  
+  useEffect(()=>{
+    socket.on('switch-player', (data:string[])=>{
+      console.log(data)
+      dispatch({
+        type:"SET_USERLIST",
+        item: data
+      })
+      canvasRef.current?.clear();
+    })
+  },[])
+
+  useEffect(()=>{
+    if(userList.length >= 2){
+      console.log("START THE GAME")
+      socket.emit('start-game')
+    }
+  },[userList])
+
   useEffect(() => {
     socket.on("broadcast", (data: any) => {
       console.log("DRAWING BOARD CHANGED", data);
@@ -30,7 +41,7 @@ const Canvas = () => {
 
   useEffect(() =>{
     console.log("TURN OVER")
-    if (socket.id !== userList[0]?.socketID) {
+    if (socket.id !== userList[0]) {
       setDisabled(true);
     } else {
       setDisabled(false);
@@ -40,7 +51,6 @@ const Canvas = () => {
   
   return (
     <>
-      <h2>{timer}</h2>
       {/*TODO: make my own Canvas*/}
       <CanvasDraw
         disabled={disabled}

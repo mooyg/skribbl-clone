@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { useStateValue } from "../Context/StateProvider";
-
+import axios from 'axios'
 const Canvas = () => {
-  const [{ socket, userList } ,dispatch] = useStateValue();
+  const [{ socket, userList, currentWord } ,dispatch] = useStateValue();
   
   const canvasRef = useRef<CanvasDraw | null>(null);
 
@@ -17,6 +17,13 @@ const Canvas = () => {
         item: data
       })
       canvasRef.current?.clear();
+      axios.get('http://localhost:8000/get/word').then((res)=>{
+        console.log("RANDOM WORD", res.data)
+        dispatch({
+          type:"SET_CURRENT_WORD",
+          item: res.data
+        })
+      })
     })
   },[])
 

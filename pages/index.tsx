@@ -5,6 +5,7 @@ import Canvas from "../Components/Canvas";
 import CanvasContainer from "../styles/CanvasContainer";
 import { useStateValue } from "../Context/StateProvider";
 import UserList from '../Components/UserList';
+import Chat from "../Components/Chat";
 const App = () => {
   const [{ socket}, dispatch] = useStateValue();
   useEffect(() => {
@@ -28,6 +29,7 @@ const App = () => {
       <CanvasContainer>
         <Canvas/>
       </CanvasContainer>
+      <Chat/>
     </Container>
   );
 };

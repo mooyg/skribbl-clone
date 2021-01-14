@@ -7,7 +7,8 @@ interface Action {
 export const initialState = {
     socket: IS_BROWSER ? io('http://localhost:8000/') : null,
     userList: [],
-    isOver: null
+    isOver: null,
+    currentWord: null
 }
 const reducer = (state=initialState, action:Action)=>{
     console.log(action)
@@ -17,6 +18,11 @@ const reducer = (state=initialState, action:Action)=>{
                 ...state,
                 userList: action.item
             }
+            case "SET_CURRENT_WORD":
+                return{
+                    ...state,
+                    currentWord: action.item
+                }
         default:
             return state
     }
